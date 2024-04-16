@@ -8,8 +8,8 @@
 {
     "id": number,
     "name": string,
-    "userid": string,
-    "password_hashed": string
+    "userId": string,
+    "password": string
 }
 ```
 </details>
@@ -23,7 +23,7 @@
 {
     "id": number,
     "name": string,
-    "parent_id": number?(Category.id) //sub category
+    "parentId": number?(Category.id) //sub category
 }
 ```
 </details>
@@ -38,9 +38,9 @@
     "id": number,
     "title": string,
     "content": string,
-    "created_at": Date,
-    "author_id": number(User.id),
-    "category_id": number(SubCategory.id)
+    "createdAt": Date,
+    "authorId": number(User.id),
+    "categoryId": number(SubCategory.id)
 }
 ```
 </details>
@@ -54,10 +54,10 @@
 {
     "id": number,
     "content": string,
-    "created_at": Date,
-    "post_id": number(Post.id),
-    "comment_id": number?(Comment.id), //sub comment
-    "author_id": number(User.id)
+    "createdAt": Date,
+    "postId": number(Post.id),
+    "commentId": number?(Comment.id), //sub comment
+    "authorId": number(User.id)
 }
 ```
 

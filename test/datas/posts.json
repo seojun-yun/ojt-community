@@ -4,47 +4,55 @@
     "title": "test",
     "content": "lorem",
     "categoryId": 1,
-    "createdAt": "2024-04-16T06:00:33.343Z",
-    "authorId": 2
+    "createdAt": "2024-04-17T08:00:08.493Z",
+    "authorId": 1
   },
   {
     "id": 2,
     "title": "test",
     "content": "lorem",
     "categoryId": 1,
-    "createdAt": "2024-04-16T06:00:41.169Z",
-    "authorId": 2
+    "createdAt": "2024-04-17T08:00:10.390Z",
+    "authorId": 1
   },
   {
     "id": 3,
     "title": "test",
     "content": "lorem",
     "categoryId": 1,
-    "createdAt": "2024-04-16T06:00:41.341Z",
-    "authorId": 2
+    "createdAt": "2024-04-17T08:00:10.508Z",
+    "authorId": 1
   },
   {
     "id": 4,
-    "title": "ichanged",
-    "content": "this post",
+    "title": "test",
+    "content": "lorem",
     "categoryId": 1,
-    "createdAt": "2024-04-16T06:00:41.545Z",
-    "authorId": 2
+    "createdAt": "2024-04-17T08:00:10.653Z",
+    "authorId": 1
   },
   {
     "id": 5,
     "title": "test",
     "content": "lorem",
     "categoryId": 1,
-    "createdAt": "2024-04-16T06:21:30.057Z",
-    "authorId": 2
+    "createdAt": "2024-04-17T08:00:10.790Z",
+    "authorId": 1
   },
   {
     "id": 6,
     "title": "test",
     "content": "lorem",
     "categoryId": 1,
-    "createdAt": "2024-04-16T06:21:31.202Z",
-    "authorId": 2
+    "createdAt": "2024-04-17T08:00:10.923Z",
+    "authorId": 1
+  },
+  {
+    "id": 7,
+    "title": "test",
+    "content": "lorem",
+    "categoryId": 1,
+    "createdAt": "2024-04-17T08:00:11.055Z",
+    "authorId": 1
   }
 ]

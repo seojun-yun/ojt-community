@@ -9,7 +9,7 @@ import { UserDB } from './entities/user.db';
 @Module({
   imports: [DBModule,JwtModule.register({
     secret: 'secretKey',
-    signOptions: { expiresIn: '1h' },
+    signOptions: { expiresIn: '1d' },
   })],
   providers: [AuthService, AuthGuard, UserDB],
   controllers: [AuthController],

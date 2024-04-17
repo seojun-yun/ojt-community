@@ -23,6 +23,6 @@ export class PostDB extends DB<Post> {
     }
 
     getCategoryRecords(categoryId: number): Post[] {
-      return this.getAllRecords().filter(post => post.categoryId === categoryId);
+      return this.findAll().filter(post => post.categoryId === categoryId);
     }
 }

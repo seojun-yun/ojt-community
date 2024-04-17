@@ -26,7 +26,7 @@ export class PostsService {
       return {success: true, posts: this.postDB.getCategoryRecords(categoryId)};
     }
 
-    return {success: true, posts: this.postDB.getAllRecords()};
+    return {success: true, posts: this.postDB.findAll()};
   }
 
   findOne(id: number) {

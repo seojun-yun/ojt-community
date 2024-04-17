@@ -91,7 +91,7 @@ Authorization: jwt_token
 Request:
 {
     "name": string,
-    "parent_id": number?(Category.id) //sub category
+    "parentId": number?(Category.id) //sub category
 }
 
 Response:
@@ -102,14 +102,13 @@ Response:
 
 ### Update Category
 ```
-PUT /categories
+PUT /categories/{Category.id}
 Authorization: jwt_token
 
 Reqeust:
 {
-    "category_id": number(Category.id),
     "name": string,
-    "parent_id": number?(Category.id) //sub category
+    "parentId": number?(Category.id) //sub category
 }
 
 Response:
@@ -195,14 +194,14 @@ Authorization: jwt_token
 Request:
 {
     "title": string,
-    "category_id": number(SubCategory.id),
+    "categoryId": number(SubCategory.id),
     "content": string
 }
 
 Response:
 {
     "success": true,
-    "post_id": number
+    "postId": number
 }
 ```
 
@@ -260,7 +259,7 @@ Authorization: jwt_token
 
 Request:
 {
-    "comment_id": number?(Comment.id), //sub comment
+    "commentId": number?(Comment.id), //sub comment
     "content": string
 }
 

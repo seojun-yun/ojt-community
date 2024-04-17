@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "test",
+    "content": "lorem",
+    "categoryId": 1,
+    "createdAt": "2024-04-16T06:00:33.343Z",
+    "authorId": 2
+  },
+  {
+    "id": 2,
+    "title": "test",
+    "content": "lorem",
+    "categoryId": 1,
+    "createdAt": "2024-04-16T06:00:41.169Z",
+    "authorId": 2
+  },
+  {
+    "id": 3,
+    "title": "test",
+    "content": "lorem",
+    "categoryId": 1,
+    "createdAt": "2024-04-16T06:00:41.341Z",
+    "authorId": 2
+  },
+  {
+    "id": 4,
+    "title": "ichanged",
+    "content": "this post",
+    "categoryId": 1,
+    "createdAt": "2024-04-16T06:00:41.545Z",
+    "authorId": 2
+  },
+  {
+    "id": 5,
+    "title": "test",
+    "content": "lorem",
+    "categoryId": 1,
+    "createdAt": "2024-04-16T06:21:30.057Z",
+    "authorId": 2
+  },
+  {
+    "id": 6,
+    "title": "test",
+    "content": "lorem",
+    "categoryId": 1,
+    "createdAt": "2024-04-16T06:21:31.202Z",
+    "authorId": 2
+  }
+]

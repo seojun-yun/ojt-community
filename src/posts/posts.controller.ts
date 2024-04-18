@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, Request, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, Request, Put, BadRequestException, ParseIntPipe } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -22,43 +22,43 @@ export class PostsController {
     return this.postsService.findAll(queryParams);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postsService.findOne(+id);
+  @Get(':postId')
+  findOne(@Param('postId', ParseIntPipe) postId: number) {
+    return this.postsService.findOne(postId);
   }
 
-  @Put(':id')
+  @Put(':postId')
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto, @Request() request: any) {
-    return this.postsService.update(+id, updatePostDto, request['user']);
+  update(@Param('postId', ParseIntPipe) postId: number, @Body() updatePostDto: UpdatePostDto, @Request() request: any) {
+    return this.postsService.update(postId, updatePostDto, request['user']);
   }
 
-  @Delete(':id')
+  @Delete(':postId')
   @UseGuards(AuthGuard)
-  remove(@Param('id') id: string, @Request() request: any) {
-    return this.postsService.remove(+id, request['user']);
+  remove(@Param('postId', ParseIntPipe) postId: number, @Request() request: any) {
+    return this.postsService.remove(postId, request['user']);
   }
   
-  @Get(':id/comments')
-  getComments(@Param('id') id: string) {
-    return this.postsService.findComments(+id);
+  @Get(':postId/comments')
+  getComments(@Param('postId', ParseIntPipe) postId: number) {
+    return this.postsService.findComments(postId);
   }
 
-  @Post(':id/comments')
+  @Post(':postId/comments')
   @UseGuards(AuthGuard)
-  addComment(@Param('id') id: string, @Body() addCommentDto: AddCommentDto, @Request() request: any) {
-    return this.postsService.addComment(+id, addCommentDto, request['user']);
+  addComment(@Param('postId', ParseIntPipe) postId: number, @Body() addCommentDto: AddCommentDto, @Request() request: any) {
+    return this.postsService.addComment(postId, addCommentDto, request['user']);
   }
 
-  @Put(':id/comments/:commentId')
+  @Put(':postId/comments/:commentId')
   @UseGuards(AuthGuard)
-  updateComment(@Param('id') id: string, @Param('commentId') commentId: string, @Body() updateCommentDto: UpdateCommentDto, @Request() request: any) {
-    return this.postsService.updateComment(+id, +commentId, updateCommentDto, request['user']);
+  updateComment(@Param('postId', ParseIntPipe) postId: number, @Param('commentId', ParseIntPipe) commentId: number, @Body() updateCommentDto: UpdateCommentDto, @Request() request: any) {
+    return this.postsService.updateComment(postId, commentId, updateCommentDto, request['user']);
   }
 
-  @Delete(':id/comments/:commentId')
+  @Delete(':postId/comments/:commentId')
   @UseGuards(AuthGuard)
-  deleteComment(@Param('id') id: string, @Param('commentId') commentId: string, @Request() request: any) {
-    return this.postsService.deleteComment(+id, +commentId, request['user'])
+  deleteComment(@Param('postId', ParseIntPipe) postId: number, @Param('commentId', ParseIntPipe) commentId: number, @Request() request: any) {
+    return this.postsService.deleteComment(postId, commentId, request['user'])
   }
 }

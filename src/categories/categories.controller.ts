@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, Put, ParseIntPipe } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -19,15 +19,15 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
 
-  @Put(':id')
+  @Put(':categoryId')
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoriesService.update(+id, updateCategoryDto);
+  update(@Param('categoryId', ParseIntPipe) categoryId: number, @Body() updateCategoryDto: UpdateCategoryDto) {
+    return this.categoriesService.update(categoryId, updateCategoryDto);
   }
 
-  @Delete(':id')
+  @Delete(':categoryId')
   @UseGuards(AuthGuard)
-  remove(@Param('id') id: string) {
-    this.categoriesService.remove(+id);
+  remove(@Param('categoryId', ParseIntPipe) categoryId: number) {
+    this.categoriesService.remove(categoryId);
   }
 }

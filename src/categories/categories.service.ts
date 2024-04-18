@@ -18,8 +18,6 @@ export class CategoriesService {
       id: this.categoryDB.getSize()+1,
       ...createCategoryDto
     });
-
-    return {success: true}
   }
 
   findAll() {
@@ -37,8 +35,8 @@ export class CategoriesService {
   }
 
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const category = this.categoryDB.findOne(c => c.id === id);
+  update(categoryId: number, updateCategoryDto: UpdateCategoryDto) {
+    const category = this.categoryDB.findOne(c => c.id === categoryId);
 
     if (!category) {
       throw new BadRequestException('parent category not found');
@@ -47,23 +45,23 @@ export class CategoriesService {
 
     if (updateCategoryDto.name) category.name = updateCategoryDto.name;
     if (updateCategoryDto.parentId) {
-      if (updateCategoryDto.parentId === id) throw new BadRequestException('parentId cannot same');
+      if (updateCategoryDto.parentId === categoryId) throw new BadRequestException('parentId cannot same');
       if (!this.categoryDB.findOne(c => c.id === updateCategoryDto.parentId)) throw new BadRequestException('parent category not found');
       category.parentId = updateCategoryDto.parentId;
     }
 
-    this.categoryDB.update(category, c => c.id === id);
+    this.categoryDB.update(category, c => c.id === categoryId);
 
     return {category};
   }
 
-  remove(id: number) {
-    const category = this.categoryDB.findOne(c => c.id === id);
+  remove(categoryId: number) {
+    const category = this.categoryDB.findOne(c => c.id === categoryId);
     
     if (!category) {
       throw new BadRequestException('category not found');
     }
 
-    this.categoryDB.delete(c => c.id === id);
+    this.categoryDB.delete(c => c.id === categoryId);
   }
 }

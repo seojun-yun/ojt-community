@@ -8,7 +8,7 @@ export class DB<T> extends DBService<T> {
 
     private readonly datas: T[];
 
-    findAll(): T[] {
+    getAllRecords(): T[] {
         return this.datas;
     }
 

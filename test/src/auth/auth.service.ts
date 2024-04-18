@@ -37,12 +37,11 @@ export class AuthService {
 
     async validateToken(authorization: string, request: Request): Promise<boolean> {
         try {
-            const payload = await this.jwtService.verifyAsync(authorization.replace('Bearer ', ''));
+            const payload = await this.jwtService.verifyAsync<User>(authorization.replace('Bearer ', ''));
             request['user'] = payload; // to access user object
             return true;
         } catch (error) {
-            console.log(error)
             return false;
-        } //FIXME EXPIRED??????????
+        }
     }
 }

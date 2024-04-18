@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, Request, 
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { GetPostByCategoryQuery } from './dto/get-post-by-category.query';
+import { GetCategoryQuery } from './dto/get-category.query';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
@@ -19,8 +19,7 @@ export class PostsController {
   }
 
   @Get()
-  findAll(@Query() queryParams: GetPostByCategoryQuery){
-    console.log(queryParams)
+  findAll(@Query() queryParams: GetCategoryQuery){
     return this.postsService.findAll(queryParams.categoryId);
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import * as path from 'path';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class DBService<T> {
         }
 
         if (!existsSync(this.dataPath)) {
-            if (!existsSync(path.resolve('datas'))) mkdirSync(path.resolve('datas'));
+            if (!existsSync(path.resolve('datas')))
             writeFileSync(this.dataPath, '[]');
         }
 

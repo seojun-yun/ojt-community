@@ -28,7 +28,7 @@ export class CategoriesService {
   }
 
   findAll() {
-    const categories = this.categoryDB.findAll();
+    const categories = this.categoryDB.getAllRecords();
 
     const data = categories.map(category => {
       const subCategories = this.categoryDB.filter(c => c.parentId === category.id);

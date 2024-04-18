@@ -19,7 +19,8 @@ export class UserDB extends DB<User> {
     }
 
     findOneByUserId(userId: string) {
-        const user = super.findAll().find((user: User) => user.userId === userId);
+        super.getAllRecords()
+        const user = super.getAllRecords().find((user: User) => user.userId === userId);
 
         return user;
     }

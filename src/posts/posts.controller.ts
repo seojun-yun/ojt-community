@@ -6,7 +6,6 @@ import { GetPostByCategoryQuery } from './dto/get-post-by-category.query';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { CommentService } from 'src/comment/comment.service';
 
 @Controller('posts')
 export class PostsController {
@@ -60,6 +59,6 @@ export class PostsController {
   @Delete(':id/comments/:commentId')
   @UseGuards(AuthGuard)
   deleteComment(@Param('id') id: string, @Param('commentId') commentId: string, @Request() request: any) {
-    this.postsService.deleteComment(+id, +commentId, request['user'])
+    return this.postsService.deleteComment(+id, +commentId, request['user'])
   }
 }

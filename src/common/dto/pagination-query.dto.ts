@@ -7,9 +7,7 @@ export class PaginationQuery {
     @Min(1)
     @Type(() => Number)
     page?: number = 1;
-
-    //TODO perPage
-
+    
     @IsOptional()
     @IsInt()
     @Min(5)

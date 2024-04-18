@@ -1,12 +1,5 @@
 [
   {
-    "id": 1,
-    "postId": 6,
-    "authorId": 1,
-    "createdAt": "2024-04-18T03:29:43.163Z",
-    "content": "test"
-  },
-  {
     "id": 2,
     "postId": 6,
     "authorId": 1,

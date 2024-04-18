@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { UserDB } from './entities/user.db';
@@ -16,13 +16,11 @@ export class AuthService {
     login(loginDto: LoginDto) {
         const user = this.userDB.findOneByUserId(loginDto.userid);
         if (user?.password !== loginDto.password) {
-            return {success: false}; //FIXME exception
+            return new UnauthorizedException('invalid credentials')
         }
 
         const payload = { userId: user.userId, sub: user.id };
-        //FIXME exception
         return {
-            success: true,
             access_token: this.jwtService.sign(payload),
         };
     }
@@ -30,12 +28,14 @@ export class AuthService {
     register(registerDto: RegisterDto) {
         const user = this.userDB.findOneByUserId(registerDto.userId);
         if (user) {
-            return {success: false}; //FIXME exc
+            throw new ConflictException('userId already used')
         }
 
         this.userDB.create(registerDto);
         
-        return {success: true}; //FIXME exc
+        return {
+            userId: registerDto.userId
+        };
     }
 
     async validateToken(authorization: string, request: Request): Promise<boolean> {

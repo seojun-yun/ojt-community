@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryDB } from './entities/category.db';
@@ -12,7 +12,7 @@ export class CategoriesService {
   ){}
 
   create(createCategoryDto: CreateCategoryDto) {
-    if (createCategoryDto.parentId && !this.categoryDB.findOne(c => c.id === createCategoryDto.parentId)) return {success: false, message: 'category not found'}; //FIXME change to filter exception
+    if (createCategoryDto.parentId && !this.categoryDB.findOne(c => c.id === createCategoryDto.parentId)) throw new BadRequestException('parent category not found');
 
     this.categoryDB.insert({
       id: this.categoryDB.getSize()+1,
@@ -24,16 +24,16 @@ export class CategoriesService {
 
   findAll() {
     const categories = this.categoryDB.findAll();
-
     const data = categories.map(category => {
-      const subCategories = this.categoryDB.filter(c => c.parentId === category.id);
+      const subCategories = categories.filter(c => c.parentId === category.id);
 
-      subCategories.forEach(c => categories.splice(categories.indexOf(c), 1));
+      subCategories.forEach(c => {
+        categories.splice(categories.indexOf(c), 1);
+      });
 
       return {...category, subCategories};
     }).filter(category => category); //FIXME 1-depth only, like comments
-
-    return {success: true, categories: data} //FIXME exception filter
+    return {categories: data}
   }
 
 
@@ -41,29 +41,29 @@ export class CategoriesService {
     const category = this.categoryDB.findOne(c => c.id === id);
 
     if (!category) {
-      return {success: false, message: 'category not found'}; //FIXME Exception
+      throw new BadRequestException('parent category not found');
     }
 
 
     if (updateCategoryDto.name) category.name = updateCategoryDto.name;
     if (updateCategoryDto.parentId) {
-      if (!this.categoryDB.findOne(c => c.id === updateCategoryDto.parentId)) return {success: false, message: 'category not found'}; //FIXME exception
+      if (updateCategoryDto.parentId === id) throw new BadRequestException('parentId cannot same');
+      if (!this.categoryDB.findOne(c => c.id === updateCategoryDto.parentId)) throw new BadRequestException('parent category not found');
       category.parentId = updateCategoryDto.parentId;
     }
 
     this.categoryDB.update(category, c => c.id === id);
 
-    return {success: true}; //FIXME exception
+    return {category};
   }
 
   remove(id: number) {
     const category = this.categoryDB.findOne(c => c.id === id);
     
     if (!category) {
-      return {success: false, message: 'category not found'}; //FIXME exception
+      throw new BadRequestException('category not found');
     }
 
     this.categoryDB.delete(c => c.id === id);
-    return {success: true}; //FIXME exception
   }
 }

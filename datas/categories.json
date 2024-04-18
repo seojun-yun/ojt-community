@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "testCategory"
+    "name": "test11Category"
   },
   {
     "id": 2,
@@ -14,6 +14,11 @@
   },
   {
     "id": 4,
+    "name": "testCategory",
+    "parentId": 1
+  },
+  {
+    "id": 5,
     "name": "testCategory",
     "parentId": 1
   }

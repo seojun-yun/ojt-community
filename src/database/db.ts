@@ -9,7 +9,8 @@ export class DB<T> extends DBService<T> {
     private readonly datas: T[];
 
     findAll(): T[] {
-        return this.datas;
+        const cloned: T[] = Object.assign([], this.datas); //deep copy
+        return cloned;
     }
 
     getSize(): number {

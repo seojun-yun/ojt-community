@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "testCategory"
+  },
+  {
+    "id": 2,
+    "name": "testCategory"
+  },
+  {
+    "id": 3,
+    "name": "testCategory",
+    "parentId": 1
+  },
+  {
+    "id": 4,
+    "name": "testCategory",
+    "parentId": 1
+  }
+]

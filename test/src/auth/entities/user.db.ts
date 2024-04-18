@@ -1,7 +1,6 @@
 import { DB } from "src/database/db";
 import { User } from "./user.entity";
 import { Injectable } from "@nestjs/common";
-import { RegisterDto } from "../dto/register.dto";
 
 @Injectable()
 export class UserDB extends DB<User> {
@@ -9,11 +8,14 @@ export class UserDB extends DB<User> {
         super('users');
     }
 
-    create(registerDto: RegisterDto) {
-        super.insert({
-            id: super.getSize()+1,
-            ...registerDto
-        });
+    create(userId: string, password: string, name: string) {
+        const user = new User();
+        user.id = super.getSize()+1;
+        user.name = name;
+        user.userId = userId;
+        user.password = password;
+
+        super.insert(user);
     }
 
     findOneByUserId(userId: string) {

@@ -12,12 +12,17 @@ export class CategoriesService {
   ){}
 
   create(createCategoryDto: CreateCategoryDto) {
-    if (createCategoryDto.parentId && !this.categoryDB.findOne(c => c.id === createCategoryDto.parentId)) return {success: false, message: 'category not found'}; //FIXME change to filter exception
 
-    this.categoryDB.insert({
-      id: this.categoryDB.getSize()+1,
-      ...createCategoryDto
-    });
+    const category = new Category();
+    category.id = this.categoryDB.getSize()+1;
+    category.name = createCategoryDto.name;
+
+    if (createCategoryDto.parentId) {
+      if (!this.categoryDB.findOne(c => c.id === createCategoryDto.parentId)) return {success: false, message: 'category not found'};
+      category.parentId = createCategoryDto.parentId;
+    }
+
+    this.categoryDB.insert(category);
 
     return {success: true}
   }
@@ -33,37 +38,40 @@ export class CategoriesService {
       return {...category, subCategories};
     }).filter(category => category); //FIXME 1-depth only, like comments
 
-    return {success: true, categories: data} //FIXME exception filter
+    return {success: true, categories: data}
   }
 
+  findOne(id: number) {
+    return `This action returns a #${id} category`;
+  }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
     const category = this.categoryDB.findOne(c => c.id === id);
 
     if (!category) {
-      return {success: false, message: 'category not found'}; //FIXME Exception
+      return {success: false, message: 'category not found'};
     }
 
 
     if (updateCategoryDto.name) category.name = updateCategoryDto.name;
     if (updateCategoryDto.parentId) {
-      if (!this.categoryDB.findOne(c => c.id === updateCategoryDto.parentId)) return {success: false, message: 'category not found'}; //FIXME exception
+      if (!this.categoryDB.findOne(c => c.id === updateCategoryDto.parentId)) return {success: false, message: 'category not found'};
       category.parentId = updateCategoryDto.parentId;
     }
 
     this.categoryDB.update(category, c => c.id === id);
 
-    return {success: true}; //FIXME exception
+    return {success: true};
   }
 
   remove(id: number) {
     const category = this.categoryDB.findOne(c => c.id === id);
     
     if (!category) {
-      return {success: false, message: 'category not found'}; //FIXME exception
+      return {success: false, message: 'category not found'};
     }
 
     this.categoryDB.delete(c => c.id === id);
-    return {success: true}; //FIXME exception
+    return {success: true};
   }
 }

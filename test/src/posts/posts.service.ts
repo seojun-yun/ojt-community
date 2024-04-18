@@ -6,8 +6,6 @@ import { CommentService } from 'src/comment/comment.service';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { GetPostByCategoryQuery } from './dto/get-post-by-category.query';
-import { PaginationQuery } from 'src/common/dto/pagination-query.dto';
 
 @Injectable()
 export class PostsService {
@@ -23,14 +21,12 @@ export class PostsService {
     return createPostDto;
   }
 
-  findAll(query: GetPostByCategoryQuery) {
-    const {page, perPage} = query;
-
-    if (query.categoryId) {
-      return {success: true, posts: this.postDB.findCategoryRecords(query.categoryId, {page, perPage})};
+  findAll(categoryId: number) {
+    if (categoryId) {
+      return {success: true, posts: this.postDB.getCategoryRecords(categoryId)};
     }
 
-    return {success: true, posts: this.postDB.findAllPosts({page, perPage})};
+    return {success: true, posts: this.postDB.findAll()};
   }
 
   findOne(id: number) {
@@ -62,23 +58,23 @@ export class PostsService {
     return {success: true};
   }
 
-  findComments(postId: number) {
-    const post = this.postDB.findOne(p => p.id === postId);
+  getComments(id: number) {
+    const post = this.postDB.findOne(p => p.id === id);
 
     if (!post) {
       return {success: false, message: 'post not found'};
     }
 
-    const comments = this.commentService.findComments(postId);
+    const comments = this.commentService.getComments(id);
 
     const test1 = comments.filter(comment => !comment.commentId).map(c => {
-      const subComments = this.commentService.findCommentsByParentId(c.id);
+      const subComments = this.commentService.getCommentsByParentId(c.id);
       
       return {...c, subComments}
     })
 
     const test = comments.map((comment: Comment) => {
-        const subComments = this.commentService.findCommentsByParentId(comment.id);
+        const subComments = this.commentService.getCommentsByParentId(comment.id);
 
         subComments.forEach(c => comments.splice(comments.indexOf(c), 1));
 
@@ -108,7 +104,7 @@ export class PostsService {
   }
   
   updateComment(postId: number, commentId: number, updateCommentDto: UpdateCommentDto, user: any) {
-    const comment = this.commentService.findComment(commentId);
+    const comment = this.commentService.getComment(commentId);
 
     if (comment?.postId !== postId || comment?.authorId !== user.sub) {
       return {success: false, message: 'comment not found'};
@@ -122,7 +118,7 @@ export class PostsService {
   }
 
   deleteComment(postId: number, commentId: number, user: any) {
-    const comment = this.commentService.findComment(commentId);
+    const comment = this.commentService.getComment(commentId);
 
     if (comment?.postId !== postId || comment?.authorId !== user.sub) {
       return {success: false, message: 'comment not found'};

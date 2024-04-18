@@ -7,26 +7,28 @@ import { Comment } from './entities/comment.entity';
 export class CommentService {
     constructor(private readonly commentDB: CommentDB) {}
 
-    findComment(commentId: number) {
+    getComment(commentId: number) {
         return this.commentDB.findOne(c => c.id === commentId);
     }
 
-    findComments(postId: number) {
+    getComments(postId: number) {
         return this.commentDB.filter(c => c.postId === postId);
     }
 
-    findCommentsByParentId(parentId: number) {
+    getCommentsByParentId(parentId: number) {
         return this.commentDB.filter(c => c.commentId === parentId);
     }
 
     addComment(postId: number, addCommentDto: AddCommentDto, user: any) {
-        this.commentDB.insert({
-            id: this.commentDB.getSize()+1,
-            postId: postId,
-            authorId: user.sub,
-            createdAt: new Date(),
-            ...addCommentDto
-        });
+        const comment = new Comment();
+        comment.id = this.commentDB.getSize()+1;
+        comment.postId = postId;
+        comment.content = addCommentDto.content;
+        comment.authorId = user.sub;
+        comment.createdAt = new Date();
+        if (addCommentDto.commentId) comment.commentId = addCommentDto.commentId;
+
+        this.commentDB.insert(comment);
     }
 
     updateComment(comment: Comment) {

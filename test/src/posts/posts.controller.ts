@@ -20,7 +20,8 @@ export class PostsController {
 
   @Get()
   findAll(@Query() queryParams: GetPostByCategoryQuery){
-    return this.postsService.findAll(queryParams);
+    console.log(queryParams)
+    return this.postsService.findAll(queryParams.categoryId);
   }
 
   @Get(':id')
@@ -42,7 +43,7 @@ export class PostsController {
   
   @Get(':id/comments')
   getComments(@Param('id') id: string) {
-    return this.postsService.findComments(+id);
+    return this.postsService.getComments(+id);
   }
 
   @Post(':id/comments')

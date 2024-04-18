@@ -3,8 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { UserDB } from './entities/user.db';
 import { User } from './entities/user.entity';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,29 +11,28 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) { }
 
-    login(loginDto: LoginDto) {
-        const user = this.userDB.findOneByUserId(loginDto.userid);
-        if (user?.password !== loginDto.password) {
-            return {success: false}; //FIXME exception
+    login(userid: string, password: string) {
+        const user = this.userDB.findOneByUserId(userid);
+        if (user?.password !== password) {
+            return {success: false};
         }
 
-        const payload = { userId: user.userId, sub: user.id };
-        //FIXME exception
+        const payload = { username: user.userId, sub: user.id };
         return {
             success: true,
             access_token: this.jwtService.sign(payload),
         };
     }
 
-    register(registerDto: RegisterDto) {
-        const user = this.userDB.findOneByUserId(registerDto.userId);
+    register(userid: string, password: string, name: string) {
+        const user = this.userDB.findOneByUserId(userid);
         if (user) {
-            return {success: false}; //FIXME exc
+            return {success: false};
         }
 
-        this.userDB.create(registerDto);
+        this.userDB.create(userid, password, name);
         
-        return {success: true}; //FIXME exc
+        return {success: true};
     }
 
     async validateToken(authorization: string, request: Request): Promise<boolean> {
@@ -44,7 +41,8 @@ export class AuthService {
             request['user'] = payload; // to access user object
             return true;
         } catch (error) {
+            console.log(error)
             return false;
-        }
+        } //FIXME EXPIRED??????????
     }
 }

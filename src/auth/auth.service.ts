@@ -1,8 +1,6 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
 import { UserDB } from './entities/user.db';
-import { User } from './entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
@@ -36,15 +34,5 @@ export class AuthService {
         return {
             userId: registerDto.userId
         };
-    }
-
-    async validateToken(authorization: string, request: Request): Promise<boolean> {
-        try {
-            const payload = await this.jwtService.verifyAsync(authorization.replace('Bearer ', ''));
-            request['user'] = payload; // to access user object
-            return true;
-        } catch (error) {
-            return false;
-        }
     }
 }

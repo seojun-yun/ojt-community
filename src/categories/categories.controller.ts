@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, Put, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Put, ParseIntPipe } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
@@ -9,7 +9,7 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
@@ -20,13 +20,13 @@ export class CategoriesController {
   }
 
   @Put(':categoryId')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   update(@Param('categoryId', ParseIntPipe) categoryId: number, @Body() updateCategoryDto: UpdateCategoryDto) {
     return this.categoriesService.update(categoryId, updateCategoryDto);
   }
 
   @Delete(':categoryId')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   remove(@Param('categoryId', ParseIntPipe) categoryId: number) {
     this.categoriesService.remove(categoryId);
   }

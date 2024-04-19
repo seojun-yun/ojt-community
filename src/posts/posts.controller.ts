@@ -3,7 +3,7 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { GetPostByCategoryQuery } from './dto/get-post-by-category.query';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 
@@ -12,7 +12,7 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   create(@Body() createPostDto: CreatePostDto, @Request() request: any) {
     return this.postsService.create(createPostDto, request['user']);
   }
@@ -28,13 +28,13 @@ export class PostsController {
   }
 
   @Put(':postId')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   update(@Param('postId', ParseIntPipe) postId: number, @Body() updatePostDto: UpdatePostDto, @Request() request: any) {
     return this.postsService.update(postId, updatePostDto, request['user']);
   }
 
   @Delete(':postId')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   remove(@Param('postId', ParseIntPipe) postId: number, @Request() request: any) {
     return this.postsService.remove(postId, request['user']);
   }
@@ -45,19 +45,19 @@ export class PostsController {
   }
 
   @Post(':postId/comments')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   addComment(@Param('postId', ParseIntPipe) postId: number, @Body() addCommentDto: AddCommentDto, @Request() request: any) {
     return this.postsService.addComment(postId, addCommentDto, request['user']);
   }
 
   @Put(':postId/comments/:commentId')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   updateComment(@Param('postId', ParseIntPipe) postId: number, @Param('commentId', ParseIntPipe) commentId: number, @Body() updateCommentDto: UpdateCommentDto, @Request() request: any) {
     return this.postsService.updateComment(postId, commentId, updateCommentDto, request['user']);
   }
 
   @Delete(':postId/comments/:commentId')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   deleteComment(@Param('postId', ParseIntPipe) postId: number, @Param('commentId', ParseIntPipe) commentId: number, @Request() request: any) {
     return this.postsService.deleteComment(postId, commentId, request['user'])
   }

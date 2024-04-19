@@ -63,18 +63,17 @@
     "commentId": 2
   },
   {
-    "id": 9,
+    "id": 10,
     "postId": 6,
     "authorId": 1,
-    "createdAt": "2024-04-19T00:22:45.966Z",
-    "content": "aaㅁㄴㅇㅁㅇatesta",
-    "commentId": 8
+    "createdAt": "2024-04-19T00:23:00.463Z",
+    "content": "aaㅁㄴㅇㅁㅇ1111111111"
   },
   {
     "id": 10,
     "postId": 6,
     "authorId": 1,
-    "createdAt": "2024-04-19T00:23:00.463Z",
+    "createdAt": "2024-04-19T05:48:11.122Z",
     "content": "aaㅁㄴㅇㅁㅇ1111111111"
   }
 ]

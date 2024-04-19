@@ -3,7 +3,6 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryDB } from './entities/category.db';
 import { Category } from './entities/category.entity';
-import { CategoriesController } from './categories.controller';
 
 @Injectable()
 export class CategoriesService {
@@ -55,7 +54,7 @@ export class CategoriesService {
 
     if (updateCategoryDto.name) category.name = updateCategoryDto.name;
     if (updateCategoryDto.parentId) {
-      if (updateCategoryDto.parentId === categoryId) throw new BadRequestException('parentId cannot same');
+      if (updateCategoryDto.parentId === categoryId) throw new BadRequestException('parentId cannot same as id');
       if (!this.categoryDB.findOne(c => c.id === updateCategoryDto.parentId)) throw new BadRequestException('parent category not found');
       category.parentId = updateCategoryDto.parentId;
     }

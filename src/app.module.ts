@@ -11,6 +11,7 @@ import { CommentModule } from './comment/comment.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+  
     }),
     CategoriesModule, 
     AuthModule, 

@@ -8,4 +8,7 @@ export class CategoryDB extends Repository<Category> {
         super("categories");
     }
 
+    findCategoriesWithParentId(id: number) {
+        return this.filter(c => c.parentId === id)
+    }
 }

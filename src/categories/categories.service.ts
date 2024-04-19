@@ -21,27 +21,27 @@ export class CategoriesService {
   }
 
   findAll() {
-    const categories = this.categoryDB.findAll();
+    const categories = this.categoryDB.findAll().filter(c => !c.parentId);
     
-
+    const data = this.prepareCategories(categories);
 
     return {categories: data}
   }
 
-  private prepareCategories(comments: Comment[]) {
+  private prepareCategories(categories: Category[]) {
     const prepared = [];
-    comments.forEach(c => prepared.push(this.addSubComments(c)));
+    categories.forEach(c => prepared.push(this.addSubCategories(c)));
     return prepared;
   }
 
-  private addSubCategories(comment: Comment) {
-    const subComments = this.commentService.findCommentsByParentId(comment.id);
-    if (subComments.length === 0) {
-      return {...comment};
+  private addSubCategories(category: Category) {
+    const subCategories = this.categoryDB.findCategoriesWithParentId(category.id);
+    if (subCategories.length === 0) {
+      return {...category};
     }
 
-    const preparedSub = this.prepareComments(subComments);
-    return {...comment, subComments: preparedSub};
+    const preparedSub = this.prepareCategories(subCategories);
+    return {...category, subCategories: preparedSub};
   }
 
 

@@ -1,6 +1,6 @@
 import { DBService } from "./database.service";
 
-export class DB<T> extends DBService<T> {
+export class Repository<T> extends DBService<T> {
     constructor(fileName: string) {
         super();
         this.datas = super.loadAll(fileName);

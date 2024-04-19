@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { DB } from "src/database/db";
+import { Repository } from "src/database/repository";
 import { Comment } from "./comment.entity";
 
 @Injectable()
-export class CommentDB extends DB<Comment> {
+export class CommentDB extends Repository<Comment> {
     constructor() {
         super('comments');
     }

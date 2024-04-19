@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { Post } from "./post.entity";
 import { CreatePostDto } from "../dto/create-post.dto";
-import { DB } from "src/database/db";
+import { Repository } from "src/database/repository";
 import { PaginationQuery } from "src/common/dto/pagination-query.dto";
 
 @Injectable()
-export class PostDB extends DB<Post> {
+export class PostDB extends Repository<Post> {
     constructor() {
       super('posts');
     }

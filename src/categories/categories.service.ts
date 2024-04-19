@@ -22,16 +22,26 @@ export class CategoriesService {
 
   findAll() {
     const categories = this.categoryDB.findAll();
-    const data = categories.map(category => {
-      const subCategories = categories.filter(c => c.parentId === category.id);
+    
 
-      subCategories.forEach(c => {
-        categories.splice(categories.indexOf(c), 1);
-      });
 
-      return {...category, subCategories};
-    }).filter(category => category); //FIXME 1-depth only, like comments
     return {categories: data}
+  }
+
+  private prepareCategories(comments: Comment[]) {
+    const prepared = [];
+    comments.forEach(c => prepared.push(this.addSubComments(c)));
+    return prepared;
+  }
+
+  private addSubCategories(comment: Comment) {
+    const subComments = this.commentService.findCommentsByParentId(comment.id);
+    if (subComments.length === 0) {
+      return {...comment};
+    }
+
+    const preparedSub = this.prepareComments(subComments);
+    return {...comment, subComments: preparedSub};
   }
 
 

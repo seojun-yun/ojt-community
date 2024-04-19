@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { DB } from "src/database/db";
+import { Repository } from "src/database/repository";
 import { Category } from "./category.entity";
 
 @Injectable()
-export class CategoryDB extends DB<Category> {
+export class CategoryDB extends Repository<Category> {
     constructor() {
         super("categories");
     }

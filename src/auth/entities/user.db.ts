@@ -1,10 +1,10 @@
-import { DB } from "src/database/db";
+import { Repository } from "src/database/repository";
 import { User } from "./user.entity";
 import { Injectable } from "@nestjs/common";
 import { RegisterDto } from "../dto/register.dto";
 
 @Injectable()
-export class UserDB extends DB<User> {
+export class UserDB extends Repository<User> {
     constructor() {
         super('users');
     }

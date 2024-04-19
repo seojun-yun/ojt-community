@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
@@ -18,7 +16,5 @@ import { CommentModule } from './comment/comment.module';
     PostsModule, 
     CommentModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

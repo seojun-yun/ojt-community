@@ -69,18 +69,27 @@ export class PostsService {
       throw new NotFoundException('post not found');
     }
 
-    const comments = this.commentService.findComments(postId);
+    const comments = this.commentService.findComments(postId).filter(c => !c.commentId);
 
-    const test = comments.map((comment: Comment) => {
-        const subComments = this.commentService.findCommentsByParentId(comment.id);
+    const processedComments = this.prepareComments(comments);
 
-        subComments.forEach(c => comments.splice(comments.indexOf(c), 1));
+    return {comments: processedComments};
+  }
 
-        return {...comment, subComments}
+  private prepareComments(comments: Comment[]) {
+    const prepared = [];
+    comments.forEach(c => prepared.push(this.addSubComments(c)));
+    return prepared;
+  }
 
-    }).filter((comment: Comment) => comment); //FIXME 1-depth only
+  private addSubComments(comment: Comment) {
+    const subComments = this.commentService.findCommentsByParentId(comment.id);
+    if (subComments.length === 0) {
+      return {...comment};
+    }
 
-    return {comments: comments, test: test};
+    const preparedSub = this.prepareComments(subComments);
+    return {...comment, subComments: preparedSub};
   }
 
   addComment(postId: number, addCommentDto: AddCommentDto, user: any) {

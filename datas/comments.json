@@ -1,5 +1,12 @@
 [
   {
+    "id": 1,
+    "postId": 6,
+    "authorId": 1,
+    "createdAt": "2024-04-18T03:29:53.851Z",
+    "content": "1"
+  },
+  {
     "id": 2,
     "postId": 6,
     "authorId": 1,
@@ -46,5 +53,28 @@
     "createdAt": "2024-04-18T03:29:59.469Z",
     "content": "testa",
     "commentId": 1
+  },
+  {
+    "id": 8,
+    "postId": 6,
+    "authorId": 1,
+    "createdAt": "2024-04-18T23:55:41.662Z",
+    "content": "aaatesta",
+    "commentId": 2
+  },
+  {
+    "id": 9,
+    "postId": 6,
+    "authorId": 1,
+    "createdAt": "2024-04-19T00:22:45.966Z",
+    "content": "aaㅁㄴㅇㅁㅇatesta",
+    "commentId": 8
+  },
+  {
+    "id": 10,
+    "postId": 6,
+    "authorId": 1,
+    "createdAt": "2024-04-19T00:23:00.463Z",
+    "content": "aaㅁㄴㅇㅁㅇ1111111111"
   }
 ]

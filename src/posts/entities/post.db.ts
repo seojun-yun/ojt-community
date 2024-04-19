@@ -26,7 +26,7 @@ export class PostDB extends Repository<Post> {
     }
 
     findCategoryRecords(categoryId: number, pagination: PaginationQuery): Post[] {
-      const mustSkip = pagination.page === 1 ? 0 : (pagination.page-1)*pagination.perPage;
+      const mustSkip = pagination.page === 1 ? 0 : (pagination.page-1)*pagination.perPage; // FIXME do tests
 
       return this.filter(post => post.categoryId === categoryId).slice(mustSkip, mustSkip+pagination.perPage);
     }

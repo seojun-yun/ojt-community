@@ -3,6 +3,6 @@ export class Comment {
     content: string;
     createdAt: Date;
     postId: number;
-    commentId?: number;
+    commentId?: number = null;
     authorId: number;
 }

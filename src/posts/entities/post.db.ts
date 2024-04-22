@@ -19,15 +19,13 @@ export class PostDB extends Repository<Post> {
         });
     }
 
-    findAllPosts(pagination: PaginationQuery) {
+    findAllPosts(pagination: PaginationQuery, categoryId?: number): Post[] {
       const mustSkip = pagination.page === 1 ? 0 : (pagination.page-1)*pagination.perPage;
 
-      return super.findAll().slice(mustSkip, mustSkip+pagination.perPage);
-    }
-
-    findCategoryRecords(categoryId: number, pagination: PaginationQuery): Post[] {
-      const mustSkip = pagination.page === 1 ? 0 : (pagination.page-1)*pagination.perPage; // FIXME do tests
-
-      return this.filter(post => post.categoryId === categoryId).slice(mustSkip, mustSkip+pagination.perPage);
+      const posts = this.findAll();
+      
+      if(categoryId) return posts.filter(post => post.categoryId === categoryId).slice(mustSkip, mustSkip+pagination.perPage);
+      
+      return posts.slice(mustSkip, mustSkip+pagination.perPage);
     }
 }

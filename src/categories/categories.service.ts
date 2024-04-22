@@ -24,7 +24,7 @@ export class CategoriesService {
     
     const data = this.prepareCategories(categories);
 
-    return {categories: data}
+    return { categories: data }
   }
 
   private prepareCategories(categories: Category[]) {
@@ -36,11 +36,11 @@ export class CategoriesService {
   private addSubCategories(category: Category) {
     const subCategories = this.categoryDB.findCategoriesWithParentId(category.id);
     if (subCategories.length === 0) {
-      return {...category};
+      return { ...category };
     }
 
     const preparedSub = this.prepareCategories(subCategories);
-    return {...category, subCategories: preparedSub};
+    return { ...category, subCategories: preparedSub };
   }
 
 
@@ -57,11 +57,12 @@ export class CategoriesService {
       if (updateCategoryDto.parentId === categoryId) throw new BadRequestException('parentId cannot same as id');
       if (!this.categoryDB.findOne(c => c.id === updateCategoryDto.parentId)) throw new BadRequestException('parent category not found');
       category.parentId = updateCategoryDto.parentId;
+      //TODO clean code
     }
 
     this.categoryDB.update(category, c => c.id === categoryId);
 
-    return {category};
+    return { category };
   }
 
   remove(categoryId: number) {

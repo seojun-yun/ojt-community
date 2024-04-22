@@ -25,18 +25,23 @@ export class PostsService {
   findAll(query: GetPostByCategoryQuery) {
     const {page, perPage} = query;
 
-    if (query.categoryId) {
-      const posts = this.postDB.findCategoryRecords(query.categoryId, {page, perPage});
-      return {posts};
-    }
 
-    const posts = this.postDB.findAllPosts({page, perPage});
-    return {posts};
+    //FIXME optimize code
+    // if (query.categoryId) {
+    //   const posts = this.postDB.findCategoryRecords(query.categoryId, {page, perPage});
+    //   return { posts };
+    // }
+
+    // ```
+    // select * from posts where categoryId = 1 limit 20, offset 20;
+    // ```
+    const posts = this.postDB.findAllPosts({page, perPage}, query.categoryId);
+    return { posts };
   }
 
   findOne(postId: number) {
     const post = this.postDB.findOne(p => p.id === postId);
-    return {post};
+    return { post };
   }
 
   update(postId: number, updatePostDto: UpdatePostDto, user: any) {
@@ -49,17 +54,17 @@ export class PostsService {
     if (updatePostDto.content) post.content = updatePostDto.content;
 
     this.postDB.update(post, p => p.id == post.id);
-    return {post};
+    return { post };
   }
 
-  remove(id: number, user: any) {
-    const post = this.postDB.findOne(post => post.id === id && post.authorId === user.sub);
+  remove(postId: number, user: any) {
+    const post = this.postDB.findOne(post => post.id === postId && post.authorId === user.sub);
     
     if (!post) {
       throw new NotFoundException('post not found');
     }
 
-    this.postDB.delete(p => p.id === id);
+    this.postDB.delete(p => p.id === postId);
   }
 
   findComments(postId: number) {
@@ -73,7 +78,7 @@ export class PostsService {
 
     const processedComments = this.prepareComments(comments);
 
-    return {comments: processedComments};
+    return { comments: processedComments };
   }
 
   private prepareComments(comments: Comment[]) {
@@ -101,7 +106,8 @@ export class PostsService {
 
 
     if (addCommentDto.commentId) {
-      const commentExist = this.commentService.isCommentExistInPost(postId, addCommentDto.commentId)
+      const commentExist = this.commentService.isCommentExistInPost(postId, addCommentDto.commentId);
+
       if (!commentExist) throw new BadRequestException('destination comment not found');
     }
 
@@ -119,7 +125,7 @@ export class PostsService {
 
     this.commentService.updateComment(comment);
 
-    return {comment};
+    return { comment };
   }
 
   deleteComment(postId: number, commentId: number, user: any) {

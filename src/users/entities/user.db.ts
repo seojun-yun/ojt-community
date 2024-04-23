@@ -1,7 +1,6 @@
 import { Repository } from "src/database/repository";
 import { User } from "./user.entity";
 import { Injectable } from "@nestjs/common";
-import { RegisterDto } from "../dto/register.dto";
 
 @Injectable()
 export class UserDB extends Repository<User> {
@@ -9,11 +8,8 @@ export class UserDB extends Repository<User> {
         super('users');
     }
 
-    create(registerDto: RegisterDto) {
-        super.insert({
-            id: super.getSize()+1,
-            ...registerDto
-        });
+    create(user: User) {
+        super.insert(user);
     }
 
     findOneByUserId(userId: string) {

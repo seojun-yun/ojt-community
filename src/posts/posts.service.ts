@@ -67,14 +67,14 @@ export class PostsService {
     this.postDB.delete(p => p.id === postId);
   }
 
-  findComments(postId: number) {
+  findComments(postId: number, user: any) {
     const post = this.postDB.findOne(p => p.id === postId);
 
     if (!post) {
       throw new NotFoundException('post not found');
     }
 
-    const comments = this.commentService.findComments(postId).filter(c => !c.commentId);
+    const comments = this.commentService.findComments(postId, user?.sub).filter(c => !c.commentId);
 
     const processedComments = this.prepareComments(comments);
 
@@ -90,11 +90,11 @@ export class PostsService {
   private addSubComments(comment: Comment) {
     const subComments = this.commentService.findCommentsByParentId(comment.id);
     if (subComments.length === 0) {
-      return {...comment};
+      return { ...comment };
     }
 
     const preparedSub = this.prepareComments(subComments);
-    return {...comment, subComments: preparedSub};
+    return { ...comment, subComments: preparedSub };
   }
 
   addComment(postId: number, addCommentDto: AddCommentDto, user: any) {

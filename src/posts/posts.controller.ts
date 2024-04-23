@@ -40,8 +40,8 @@ export class PostsController {
   }
   
   @Get(':postId/comments')
-  getComments(@Param('postId', ParseIntPipe) postId: number) {
-    return this.postsService.findComments(postId);
+  getComments(@Param('postId', ParseIntPipe) postId: number, @Request() request: any) {
+    return this.postsService.findComments(postId, request['user']);
   }
 
   @Post(':postId/comments')

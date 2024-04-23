@@ -75,5 +75,20 @@
     "authorId": 1,
     "createdAt": "2024-04-19T05:48:11.122Z",
     "content": "aaㅁㄴㅇㅁㅇ1111111111"
+  },
+  {
+    "id": 11,
+    "postId": 6,
+    "authorId": 2,
+    "createdAt": "2024-04-23T05:48:47.225Z",
+    "content": "block-comment-test"
+  },
+  {
+    "id": 12,
+    "postId": 6,
+    "authorId": 1,
+    "createdAt": "2024-04-23T05:49:28.540Z",
+    "content": "block-sub-comment-test",
+    "commentId": 11
   }
 ]

@@ -4,6 +4,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
 import { CommentModule } from './comment/comment.module';
+import { BlockModule } from './blocks/block.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { CommentModule } from './comment/comment.module';
     CategoriesModule, 
     AuthModule, 
     PostsModule, 
-    CommentModule
+    CommentModule, BlockModule, UsersModule
   ],
 })
 export class AppModule {}

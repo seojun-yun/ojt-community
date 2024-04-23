@@ -2,17 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { CommentDB } from './entities/comment.db';
 import { AddCommentDto } from 'src/posts/dto/add-comment.dto';
 import { Comment } from './entities/comment.entity';
+import { BlockService } from 'src/blocks/block.service';
+
 
 @Injectable()
 export class CommentService {
-    constructor(private readonly commentDB: CommentDB) {}
+    constructor(
+        private readonly commentDB: CommentDB,
+        private readonly blockService: BlockService
+    ) {}
 
     findComment(commentId: number) {
         return this.commentDB.findOne(c => c.id === commentId);
     }
 
-    findComments(postId: number) {
-        return this.commentDB.filter(c => c.postId === postId);
+    findComments(postId: number, userId: number) {
+        const blockedUsers = this.blockService.findBlockedUsers(userId);
+        return this.commentDB.filter(c => c.postId === postId);// && !blockedUsers.find(b => b.targetUserId === c.authorId));
     }
 
     findCommentsByParentId(parentId: number) {

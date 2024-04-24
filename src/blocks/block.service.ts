@@ -24,7 +24,7 @@ export class BlockService {
 
     findBlockedUsers(userId: number) {
         const blocked = this.blockDB.findBlockedUsers(userId);
-        return { blocked };
+        return blocked;
     }
 
     findBlockByUserId(sourceUserId: number, targetUserId: number) {

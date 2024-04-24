@@ -6,6 +6,8 @@ import { GetPostByCategoryQuery } from './dto/get-post-by-category.query';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { User } from 'src/common/decorator/user.decorator';
+import { JwtOptionalAuthGuard } from 'src/auth/jwt-optional.guard';
 
 @Controller('posts')
 export class PostsController {
@@ -40,8 +42,10 @@ export class PostsController {
   }
   
   @Get(':postId/comments')
-  getComments(@Param('postId', ParseIntPipe) postId: number, @Request() request: any) {
-    return this.postsService.findComments(postId, request['user']);
+  @UseGuards(JwtOptionalAuthGuard)
+  getComments(@Param('postId', ParseIntPipe) postId: number, @User() user: any) {
+    console.log('user', user);
+    return this.postsService.findComments(postId, user);
   }
 
   @Post(':postId/comments')

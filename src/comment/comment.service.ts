@@ -16,9 +16,15 @@ export class CommentService {
         return this.commentDB.findOne(c => c.id === commentId);
     }
 
-    findComments(postId: number, userId: number) {
+    findComments(postId: number, userId?: number) {
+        const comments = this.commentDB.filter(c => c.postId === postId);
+
+        if (!userId) { // if not logged. do not filter blocked users
+            return comments;
+        }
+
         const blockedUsers = this.blockService.findBlockedUsers(userId);
-        return this.commentDB.filter(c => c.postId === postId);// && !blockedUsers.find(b => b.targetUserId === c.authorId));
+        return comments.filter(c => blockedUsers.find(x => x.targetUserId !== c.authorId));
     }
 
     findCommentsByParentId(parentId: number) {

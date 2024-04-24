@@ -5,7 +5,7 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class BlockDB extends Repository<Block> {
     constructor() {
-        super('blocks')
+        super('blocks');
     }
 
     findBlockedUsers(userId: number) {

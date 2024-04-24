@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BlockDB } from './entities/block.db';
 import { Block } from './entities/block.entity';
 import { AddUserBlockDto } from 'src/users/dto/add-user-block.dto';
+import { RemoveUserBlockDto } from 'src/users/dto/remove-user-block.dto';
 
 @Injectable()
 export class BlockService {
@@ -19,8 +20,13 @@ export class BlockService {
             blockedAt: new Date(),
             sourceUserId: sourceUserId,
             ...addUserBlockDto
-        })
+        });
     }
+
+    removeBlock(removeUserBlockDto: RemoveUserBlockDto, sourceUserId: number) {
+        this.blockDB.delete(b => b.sourceUserId === sourceUserId && b.targetUserId === removeUserBlockDto.targetUserId);
+    }
+
 
     findBlockedUsers(userId: number) {
         const blocked = this.blockDB.findBlockedUsers(userId);

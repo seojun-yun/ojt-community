@@ -4,7 +4,7 @@ import { User } from './entities/user.entity';
 import { RegisterDto } from 'src/auth/dto/register.dto';
 import { AddUserBlockDto } from './dto/add-user-block.dto';
 import { BlockService } from 'src/blocks/block.service';
-import { NotFoundError } from 'rxjs';
+import { RemoveUserBlockDto } from './dto/remove-user-block.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,16 +21,14 @@ export class UsersService {
     }
     
     addUserBlock(addUserBlockDto: AddUserBlockDto, user: any) {
-        // FIXME ???
-
-        if (addUserBlockDto.targetUserId === user.sub) throw new BadRequestException('cannot block your self');
+        if (addUserBlockDto.targetUserId === user.sub) throw new BadRequestException('cannot block self');
 
         const targetUser = this.userDB.findOne(u => u.id === addUserBlockDto.targetUserId);
 
         if (!targetUser) throw new NotFoundException('target user not found');
 
         const block = this.blockService.findBlockByUserId(user.sub, addUserBlockDto.targetUserId);
-        console.log(block);
+
         if (block) throw new ConflictException('already blocked');
 
         this.blockService.addBlock(addUserBlockDto, user.sub);
@@ -42,5 +40,21 @@ export class UsersService {
 
     findUserByUserId(userId: string) {
         return this.userDB.findOneByUserId(userId);
+    }
+
+    removeUserBlock(removeUserBlockDto: RemoveUserBlockDto, user: any) {
+        if (removeUserBlockDto.targetUserId === user.sub) throw new BadRequestException('cannot unblock self');
+
+
+        // addUserBlock에서 검증해서 필요없음
+        // const targetUser = this.userDB.findOne(u => u.id === removeUserBlockDto.targetUserId);
+
+        // if (!targetUser) throw new NotFoundException('target user not found');
+
+        const block = this.blockService.findBlockByUserId(user.sub, removeUserBlockDto.targetUserId);
+
+        if (!block) throw new NotFoundException('target user is not blocked');
+
+        this.blockService.removeBlock(removeUserBlockDto, user.sub);
     }
 }

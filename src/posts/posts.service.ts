@@ -76,8 +76,6 @@ export class PostsService {
 
     const comments = this.commentService.findComments(postId, user?.sub).filter(c => !c.commentId);
 
-    console.log('found comments', comments);
-
     const processedComments = this.prepareComments(comments);
 
     return { comments: processedComments };

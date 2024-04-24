@@ -24,6 +24,9 @@ export class CommentService {
         }
 
         const blockedUsers = this.blockService.findBlockedUsers(userId);
+        
+        if (blockedUsers.length === 0) return comments;
+
         return comments.filter(c => blockedUsers.find(x => x.targetUserId !== c.authorId));
     }
 

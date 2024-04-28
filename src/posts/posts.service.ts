@@ -7,12 +7,14 @@ import { AddCommentDto } from './dto/add-comment.dto';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { GetPostByCategoryQuery } from './dto/get-post-by-category.query';
+import { BlockService } from 'src/blocks/block.service';
 
 @Injectable()
 export class PostsService {
   constructor(
     private readonly postDB: PostDB,
-    private readonly commentService: CommentService
+    private readonly commentService: CommentService,
+    private readonly blockService: BlockService
   ) {}
 
   create(createPostDto: CreatePostDto, user: any) {
@@ -22,9 +24,8 @@ export class PostsService {
     return createPostDto;
   }
 
-  findAll(query: GetPostByCategoryQuery) {
+  findAll(query: GetPostByCategoryQuery, user?: any) {
     const {page, perPage} = query;
-
 
     //FIXME optimize code
     // if (query.categoryId) {
@@ -35,8 +36,15 @@ export class PostsService {
     // ```
     // select * from posts where categoryId = 1 limit 20, offset 20;
     // ```
-    const posts = this.postDB.findAllPosts({page, perPage}, query.categoryId);
-    return { posts };
+
+    const posts = this.postDB.findAllPosts({ page, perPage }, query.categoryId);
+
+    if (!user) return { posts };
+
+    const blocked = this.blockService.findBlockedUsers(user.sub);
+
+    const filtered = posts.filter(p => !blocked.find(b => b.targetUserId === p.authorId));
+    return { filtered };
   }
 
   findOne(postId: number) {

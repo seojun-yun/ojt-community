@@ -20,8 +20,9 @@ export class PostsController {
   }
 
   @Get()
-  findAll(@Query() queryParams: GetPostByCategoryQuery){
-    return this.postsService.findAll(queryParams);
+  @UseGuards(JwtOptionalAuthGuard)
+  findAll(@Query() queryParams: GetPostByCategoryQuery, @User() user: any){
+    return this.postsService.findAll(queryParams, user);
   }
 
   @Get(':postId')
